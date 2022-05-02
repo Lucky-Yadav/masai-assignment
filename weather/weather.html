@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weather data</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header">
+        <input type="text" id="search" placeholder="search weather in your city" class="search"> 
+    <button onclick="getdata()">search</button>
+    </div>
+    
+    <div class="main" id="main">
+        <div class="first">
+            <div id="city"></div>
+            <div id="temp"></div>
+            <div id="pressure"></div>
+            <div id="humidity"></div>            
+        </div>
+        <div class="second" id="second"></div>
+        <div class="third">
+            <div id="wind_speed"></div>
+            <div id="sunrise"></div>
+            <div id="sunset"></div>
+            <div id="weather"></div>
+        </div>
+
+    </div>
+    <script>
+        function getdata() {
+            let name = document.getElementById("search").value;
+
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=a50e6e58c213e0020464b3c701c69adf`)
+                .then((Response) => {
+                    Response.json()
+                        .then((result) => {
+                            console.log(result)
+                            if ((result["message"]) != "city not found")
+                                display_data(result);
+
+                        })
+                        .catch((Error) => {
+                            console.log(Error);
+                        });
+                })
+                .catch((Error) => {
+                    console.log(Error);
+                });
+        }
+
+        function display_data(result) {
+            document.getElementById("city").innerHTML = `Weather of : ${result["name"]}`
+            document.getElementById("temp").innerHTML = `Temp is : ${result["main"]["temp"]}`
+            document.getElementById("pressure").innerHTML = `Pressure : ${result["main"]["pressure"]}`
+            document.getElementById("humidity").innerHTML = `Humidity : ${result["main"]["humidity"]}`
+            document.getElementById("wind_speed").innerHTML = `Wind speed =  ${result["wind"]["speed"]} km/h`
+            document.getElementById("sunrise").innerHTML = `Sunrise : ${result["sys"]["sunrise"]}`
+            document.getElementById("sunset").innerHTML = `Sunset : ${result["sys"]["sunset"]}`
+            document.getElementById("weather").innerHTML = `Weather description : ${result["weather"][0]["description"]}`
+            if ((result["weather"][0]["main"]) == "clear") {
+                var img = new Image();
+                img.src = "sunny.png"
+                document.getElementById('second').appendChild(img);
+            }else {
+                var img = new Image();
+                img.src = `partly_cloudy.png`
+                document.getElementById('second').appendChild(img);
+            }
+            
+        }
+    </script>
+</body>
+
+</html>

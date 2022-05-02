@@ -1,0 +1,47 @@
+body {
+    color: aliceblue;
+    background-color: #202124;
+}
+.header {
+    display: flexbox;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.header input {
+    height: 35px;
+    width: 250px;
+    align-self: center;
+    padding-left: 8px;
+    border-radius: 8px;
+}
+.header button{
+    height: 35px;
+    width: 120px;
+    border-radius: 10px;
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 50px;
+}
+.first {
+    padding-bottom: 10px;
+}
+
+.second img{
+    width: 100px;
+}
+#city {
+    margin-left: -190px;
+}
+.search {
+    color : white;
+    background-color: #303134;
+    border: none;
+}
