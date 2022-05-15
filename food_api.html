@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food site </title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <style>
+        html::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        html::-webkit-scrollbar-thumb {
+            background-color: rgb(176, 176, 199);
+            border-radius: 4px;
+        }
+
+        html::-webkit-scrollbar-track {
+            background-color: 000000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <input type="text" id="search" placeholder="search thumbnails">
+        <button onclick="getdata()">search</button>
+    </div>
+    <div class="main"></div>
+</body>
+<script>
+
+    async function getdata() {
+        try {
+            let name = document.getElementById("search").value;
+            console.log(name)
+            const res = await fetch('www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata');
+            
+            // const data = await res.json();
+            console.log(res)
+            console.log(data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+</script>
+
+</html>
