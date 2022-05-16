@@ -8,17 +8,16 @@
     <title>main</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<table>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-</table>
+
 
 <body>
     <div id="header"></div>
+    <button class="button" onclick="search()">search by type</button>
     <div class="body">
         <div class="top"><h4>List of breweries</h4></div>
+        <div id="list"></div>
         <div id="body"></div>
+        
     </div>
 </body>
 <script type="module">
@@ -39,8 +38,43 @@
             console.log(error)
         }
     }
+    async function getdata1(type) {
+        document.getElementById("body").innerHTML = ``
+        try {
+            const res = await fetch(`https://api.openbrewerydb.org/breweries?by_type=${type}&per_page=3`);
+            const data = await res.json();
+            var Data = data
+            console.log(Data)
+            displaydata(Data);
+        } catch (error) {
+            console.log(error)
+        }
+    }
     let dataelement = document.getElementById("body")
     var table = document.createElement("table")
+    var list = document.getElementById("list")
+ function search() {
+     let micro = "micro"
+     let row1 = document.createElement("div")
+
+     row1.innerHTML = `<button onclick="getdata1(${micro})">micro</button>`
+     let row2 = document.createElement("div")
+     row2.innerHTML = `<button onclick="getdata1(nano)">nano</button>`
+     let row3 = document.createElement("div")
+     row3.innerHTML = `<button onclick="getdata1(regional)">regional</button>`
+     let row4 = document.createElement("div")
+     row4.innerHTML = `<button onclick="getdata1(large)">large</button>`
+     let row5 = document.createElement("div")
+     row5.innerHTML = `<button onclick="getdata1(bar)">bar</button>`
+     let row7 = document.createElement("div")
+     row7.innerHTML = `<button onclick="getdata1(contract)">contract</button>`
+     let row8 = document.createElement("div")
+     row8.innerHTML = `<button onclick="getdata1(proprietor)">proprietor</button>`
+     let row6 = document.createElement("div")
+     row6.innerHTML = `<button onclick="getdata1(closed)">closed</button>`
+     list.append(row1, row2, row3, row4, row6, row7, row8)
+ }
+
 
     dataelement.append(table)
     table.className = 'table'

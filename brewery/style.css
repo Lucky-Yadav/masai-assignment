@@ -17,7 +17,12 @@
 .options p {
     text-decoration-color: #202124;
 }
+.button {
+    border-radius: 5px;
+    margin-left: 40px;
+    margin-top: 30px;
 
+}
 
 body {
     color: aliceblue;
