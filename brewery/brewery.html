@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>breweries</title>
+    <style>
+        html::-webkit-scrollbar {
+            width: 5px;
+        }
+        html::-webkit-scrollbar-thumb {
+            background-color: rgb(176, 176, 199);
+            border-radius: 4px;
+        }
+        html::-webkit-scrollbar-track {
+            background-color: 000000;
+        }
+        #search {
+            color: white;
+            background-color: #303134;
+            border: none;
+        }
+        </style>
+        <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="header"></div>
+    <div class="navbar"></div>
+    <div class="header">
+        <div class="first"></div>
+        <div class="second">
+            <input type="text" oninput="debounce(getdata, 1000)" id="search" placeholder="search movies">
+        </div>
+        
+    </div>
+    <div id="body"></div>
+</body>
+<script type="module">
+    let header = document.getElementById("header");
+    import navbar from "./navbar.js";
+    header.innerHTML = navbar();
+</script>
+<script>
+    let timeout;
+    function debounce(func, delay) {
+        if (timeout) {
+            clearTimeout(timeout)
+        }
+        timeout = setTimeout(function () {
+            func()
+        }, delay)
+    }
+    async function getdata() {
+        try {
+            let name = document.getElementById("search").value;
+            console.log(name)
+            const res = await fetch(`https://api.openbrewerydb.org/breweries?by_name=${name}&per_page=3`);
+            const data = await res.json();
+            var Data = data
+            document.getElementById("box2").innerHTML = ``
+            console.log(Data)
+            displaydata(Data);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    let dataelement = document.getElementById("body")
+           var box1 = document.createElement("div")
+           var box2 = document.createElement("div")
+           
+           dataelement.append(box1)
+           dataelement.append(box2)
+           box2.className = 'box'
+           box2.id = 'box2'
+
+    function displaydata(data) {
+        data.forEach((alldata) => {
+            var box3 = document.createElement("div")            
+           box2.append(box3)
+           box3.id = 'box3'
+           let p1 = document.createElement("p")
+           p1.textContent = `name:-${alldata.name}`
+           var p2 = document.createElement("p")
+           p2.textContent = `brewery_type:-${alldata.brewery_type}`
+           let p3 = document.createElement("p")
+           p3.textContent = `city:-${alldata.city}`
+           let p4 = document.createElement("p")
+           p4.textContent = `state:-${alldata.state}`
+           box3.append(p1);
+           box3.append(p2);
+           box3.append(p3);
+           box3.append(p4);
+        });
+
+    }
+</script>
+
+</html>

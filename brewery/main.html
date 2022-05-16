@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>main</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<table>
+    <tr></tr>
+    <tr></tr>
+    <tr></tr>
+</table>
+
+<body>
+    <div id="header"></div>
+    <div class="body">
+        <div class="top"><h4>List of breweries</h4></div>
+        <div id="body"></div>
+    </div>
+</body>
+<script type="module">
+    let header = document.getElementById("header");
+    import navbar from "./navbar.js";
+    header.innerHTML = navbar();
+</script>
+<script>
+    getdata()
+    async function getdata() {
+        try {
+            const res = await fetch(`https://api.openbrewerydb.org/breweries?per_page=55`);
+            const data = await res.json();
+            var Data = data
+            console.log(Data)
+            displaydata(Data);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    let dataelement = document.getElementById("body")
+    var table = document.createElement("table")
+
+    dataelement.append(table)
+    table.className = 'table'
+    table.id = 'table'
+    function displaydata(data) {
+        data.forEach((alldata) => {
+            let row = document.createElement("tr")
+            table.append(row)
+            let name = document.createElement("td")
+            name.textContent = `name:-  ${alldata.name}`
+            let brewery_type = document.createElement("td")
+            brewery_type.textContent = `brewery_type:-  ${alldata.brewery_type}`
+            let city = document.createElement("td")
+            city.textContent = `city:-  ${alldata.city}`
+            let state = document.createElement("td")
+            state.textContent = `state:-  ${alldata.state}`
+            var allow = alldata.website_url
+            let details = document.createElement("td")
+            if(allow !== "null"){
+                var button = document.createElement("a")
+            button.href = alldata.website_url
+            button.textContent = `More Details`
+            details.append(button)
+            }
+            
+            row.append(name, brewery_type, city, state,details)
+            
+        });
+
+    }
+</script>
+
+</html>
