@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="container"></div>
+    <input id="title" type="text" placeholder="title">
+    <input id="checkbox" onclick="count()" type="checkbox">
+    <button onclick="create()">post</button>
+</body>
+<script>
+    
+    Count= 0;
+    function count() {
+        count++
+    }
+  
+    async function create() {
+        try {
+            
+            let title = document.getElementById("title").value
+            let status ;
+            if(count%2 != 0){
+                status =true
+            }else {
+                status = false
+            }
+            let body = {title,status}
+            
+            let resp = await fetch(`http://localhost:3000/students`,{
+                method: "post",
+                body:JSON.stringify(body),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            let data = await resp.json();
+            updatedom()
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+  async  function updatedom() {
+    let container = document.getElementById("container")
+       let table = document.createElement("table")
+       let row = document.createElement("tr")
+       let td1 = document.createElement("td")
+       td1.textContent = "title"
+       let td2 = document.createElement("td")
+       td1.textContent = "status"
+
+       row.append(td1,td2)
+       container.append(row)
+       let res = await fetch(`http://localhost:3000/students`)
+       let data2 = await res.json();
+
+       data.forEach(student => {
+        let row = document.createElement("tr")
+        container.append(row)
+        let td1 = document.createElement("td")
+        td1.textContent = student.title
+        let td2 = document.createElement("td")
+        td2.textContent = student.status
+        row.append(td1,td2)
+    });
+    }
+
+</script>
+
+</html>
